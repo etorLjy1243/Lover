@@ -1,7 +1,6 @@
 package com.kuyin.lover;
 
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kuyin.lover.adapter.ImageListAdapter;
 import com.kuyin.lover.model.ImageModel;
-import com.kuyin.lover.viewmodel.ImageListViewModel;
+import com.kuyin.lover.viewmodel.MainViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -35,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     SmartRefreshLayout refreshLayout;
     private List<ImageModel.DataBean> imageModels = new ArrayList<>();
     private ImageListAdapter adapter;
-    private ImageListViewModel viewModel;
+    private MainViewModel viewModel;
     int page = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ImageListAdapter(this, imageModels);
         recyclerView.setAdapter(adapter);
 
-        viewModel = ViewModelProviders.of(this).get(ImageListViewModel.class);
-        viewModel.getMutableLiveData().observe(this, listBaseResponse -> {
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.mutableLiveData.observe(this, listBaseResponse -> {
 
             if (listBaseResponse != null) {
                 if (page == 1) {
